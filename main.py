@@ -1,4 +1,4 @@
-from mcstatus import JavaServer, BedrockServer
+from mcstatus import BedrockServer
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
@@ -10,11 +10,14 @@ async def check_server(update: Update, context: ContextTypes.DEFAULT_TYPE):
         server = BedrockServer.lookup(f"{SERVER_IP}:{SERVER_PORT}")
         status = server.status()
 
+        version = status.version.name
+        players_online = status.players.online
+        players_max = status.players.max
+
         await update.message.reply_text(
             f"✅ Сервер запущен!\n"
-            f"MOTD: {status.motd}\n"
-            f"Версия: {status.version.name}\n"
-            f"Игроков онлайн: {status.players_online}/{status.players_max}"
+            f"ℹ️ Версия: {version}\n"
+            f"🌐 Игроков онлайн: {players_online}/{players_max}"
         )
     except Exception as e:
         await update.message.reply_text("❌ Сервер не запущен или недоступен.")
