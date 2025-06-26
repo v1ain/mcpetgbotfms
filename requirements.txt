@@ -1,2 +1,2 @@
-mcstatus
+mcstatus==5.1.1
 python-telegram-bot==20.3
